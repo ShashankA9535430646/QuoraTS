@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+       
+        <p>{{ question.query }}</p>
+
+        <h3>Answers:</h3> 
+        {% for i in question.answers.all %}
+            <p>{{ i.content }}</p>
+            <form action="{% url 'app:answer_detail' q_id=question.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Like</button>
+            </form>
+            {% if like %}
+            <p>Likes: 1</p>
+            {% else %}
+            <p>Likes: 0</p>
+            {% endif %}
+
+            <!-- <p>Likes: {{ answer.likes }}</p> -->
+            
+            {% empty %}
+            <p>No answers available.</p>
+            {% endfor %}
+            <hr>
+            
+        
+        
+        <h3>Post an Answer:</h3>
+        <form method="POST" action="{% url 'app:create_answer' q_id=question.id %}">
+            {% csrf_token %}
+            
+            <textarea name="content" required></textarea><br>
+            <input type="submit" value="Post Answer">
+        </form>
+        
+        
+    </body>
+</html>
